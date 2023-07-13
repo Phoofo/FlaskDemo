@@ -310,5 +310,66 @@
 
     cfgScale.addEventListener('input', () => {
         cfgScaleRange.value = cfgScale.value;
-    })
+    });
+
+let isPendding = false;
+
+    submitBtn.addEventListener('click', () => {
+        // 判断是否有请求正在处理中
+        if (isPendding) {
+            alert('请等待上次任务结束后，再发送请求')
+            return;
+        }
+
+        // 获取表单数据
+        const prompt = document.querySelector('#prompt').value.trim();
+        const negativePrompt = document.querySelector('#negative-prompt').value.trim();
+        const samplerIndex = document.querySelector('#sampler-index').value;
+        const steps = document.querySelector('#steps').value;
+        const width = document.querySelector('#width').value;
+        const height = document.querySelector('#height').value;
+        const cfgScale = document.querySelector('#cfg-scale').value;
+        const batchSize = document.querySelector('#batch-size').value;
+        const seed = document.querySelector('#seed').value;
+
+        // 非空校验
+        if (!prompt || !negativePrompt) {
+            alert('提示词和反向提示词不能为空');
+            return;
+        }
+        isPending = true;
+        // 构造请求数据
+        const data = {
+            prompt,
+            negative_prompt: negativePrompt,
+            sampler_index: samplerIndex,
+            steps,
+            width,
+            height,
+            cfg_scale: cfgScale,
+            batch_size: batchSize,
+            seed,
+        };
+
+        // 发送 ajax 请求
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/generateimg');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function () {
+            // 请求完成后，将 isPendding 设置为 false
+
+            isPending = false;
+            if (xhr.status === 200) {
+                // 处理请求成功的情况
+                const response = JSON.parse(xhr.responseText);
+                const imgTags = response.img_paths.map(path => `<img src="${path}">`);
+                const imgStr = imgTags.join(" ");
+                taskContainer.innerHTML = imgStr
+            }
+        }
+
+        // 请求发送前，将 isPendding 设置为 true
+        xhr.send(JSON.stringify(data));
+        taskContainer.innerHTML = '<p>正在生成图片，请稍等...</p>';
+    });
 </script>

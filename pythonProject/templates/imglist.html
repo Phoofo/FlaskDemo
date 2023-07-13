@@ -168,7 +168,7 @@
             </nav>
             <div class="user-info">
                 欢迎回来：
-                <span>{{ session['userinfo']}}</span>
+                <span>{{ session['userinfo'] }}</span>
                 <a href="/logout">退出</a>
             </div>
         </div>
@@ -176,13 +176,13 @@
 </header>
 <main>
     {% for img in user_img_list %}
-    <div class="img-box">
-        <div class="image-container">
-            <img src="{{ img.path }}">
-            <div class="date">生成日期：{{ img.date }}</div>
-            <button>预览</button>
+        <div class="img-box">
+            <div class="image-container">
+                <img src="{{ img.path }}">
+                <div class="date">生成日期：{{ img.date }}</div>
+                <button>预览</button>
+            </div>
         </div>
-    </div>
     {% endfor %}
 
 </main>
