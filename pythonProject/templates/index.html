@@ -1,0 +1,314 @@
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background-color: #f5f5f5;
+    }
+
+    .nav {
+        display: flex;
+        align-items: center;
+        height: 80px;
+        background-color: #333;
+    }
+
+    .container {
+        width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 20px;
+    }
+
+
+    nav ul {
+        display: flex;
+        list-style: none;
+    }
+
+    nav ul li {
+        margin-right: 20px;
+    }
+
+    nav ul li:last-child {
+        margin-right: 0;
+    }
+
+    nav ul li a {
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        color: #fff;
+        margin-left: auto;
+    }
+
+    .user-info span {
+        margin-right: 10px;
+    }
+
+    .user-info a {
+        font-size: 18px;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    main {
+        background-color: #fff;
+    }
+
+    .form-container {
+        padding-top: 40px;
+        background-color: #f5f5f5;
+    }
+
+    .form-left {
+        width: 900px;
+        padding-right: 40px;
+    }
+
+    .form-right {
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    form {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .form-group textarea {
+        width: 100%;
+        height: 75px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: none;
+    }
+
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .form-group input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .range-container {
+        display: flex;
+    }
+
+    .range-container input[type="range"] {
+        width: 80%;
+        margin-right: 10px;
+    }
+
+    .range-container input[type="number"] {
+        width: 20%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #submit-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #333;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+
+    .task-container {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .task-container img {
+        padding: 10px;
+        width: 33.33%;
+    }
+
+    .task-container p {
+        font-size: 18px;
+        font-weight: bold;
+        color: #ccc;
+        width: 100%;
+    }
+</style>
+
+<body>
+    <header>
+        <div class="nav">
+            <div class="container">
+                <nav>
+                    <ul>
+                        <li><a href="/">首页</a></li>
+                        <li><a href="/imglist">图片列表</a></li>
+                    </ul>
+                </nav>
+                <div class="user-info">
+                    欢迎回来：
+                    <span>{{ session['userinfo']}}</span>
+                    <a href="/logout">退出</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="form-container">
+            <div class="container">
+                <div class="form-left">
+                    <form>
+                        <div class="form-group">
+                            <label for="prompt">提示词</label>
+                            <textarea id="prompt" name="prompt" placeholder="请输入提示词...">dog</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="negative-prompt">反向提示词</label>
+                            <textarea id="negative-prompt" name="negative_prompt"
+                                placeholder="请输入反向提示词...">paintings, sketches, lowres, normal quality, worst quality, low quality, cropped, dot, mole, ugly, grayscale, monochrome, duplicate, morbid, mutilated, missing fingers, extra fingers, too many fingers, fused fingers, mutated hands, bad hands, poorly drawn hands, poorly drawn face, poorly drawn eyebrows, bad anatomy, cloned face, long neck, extra legs, extra arms, missing arms missing legs, malformed limbs, deformed, simple background, bad proportions, disfigured, skin spots, skin blemishes, age spot, bad feet, error, text, extra digit, fewer digits, jpeg artifacts, signature, username, blurry, watermark, mask, logo</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="sampler-index">采样方法</label>
+                            <select id="sampler-index" name="sampler_index">
+                                <option value="Euler a">Euler a</option>
+                                <option value="Euler">Euler</option>
+                                <option value="LMS">LMS</option>
+                                <option value="DDIM">DDIM</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="steps">采样迭代步数</label>
+                            <div class="range-container">
+                                <input type="range" id="steps-range" name="steps_range" min="1" max="150" value="20">
+                                <input type="number" id="steps" name="steps" min="1" max="150" value="20">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="width">宽度</label>
+                            <div class="range-container">
+                                <input type="range" id="width-range" name="width_range" min="64" max="512" value="200">
+                                <input type="number" id="width" name="width" min="64" max="512" value="200">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="height">高度</label>
+                            <div class="range-container">
+                                <input type="range" id="height-range" name="height_range" min="64" max="512"
+                                    value="200">
+                                <input type="number" id="height" name="height" min="64" max="512" value="200">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cfg-scale">提示词相关性</label>
+                            <div class="range-container">
+                                <input type="range" id="cfg-scale-range" name="cfg_scale_range" min="1" max="30"
+                                    value="7">
+                                <input type="number" id="cfg-scale" name="cfg_scale" min="1" max="30" value="7">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="batch-size">生成数量</label>
+                            <input type="number" id="batch-size" name="batch_size" min="1" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="seed">随机种子</label>
+                            <input type="number" id="seed" name="seed" value="-1">
+                        </div>
+                    </form>
+                </div>
+                <div class="form-right">
+                    <button id="submit-btn">提交</button>
+                    <div class="task-container">
+                        <p>暂无任务</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<script>
+    const stepsRange = document.getElementById('steps-range');
+    const steps = document.getElementById('steps');
+    const widthRange = document.getElementById('width-range');
+    const width = document.getElementById('width');
+    const heightRange = document.getElementById('height-range');
+    const height = document.getElementById('height');
+    const cfgScaleRange = document.getElementById('cfg-scale-range');
+    const cfgScale = document.getElementById('cfg-scale');
+    const submitBtn = document.getElementById('submit-btn');
+    const taskContainer = document.querySelector('.task-container');
+
+    stepsRange.addEventListener('input', () => {
+        steps.value = stepsRange.value;
+    });
+
+    steps.addEventListener('input', () => {
+        stepsRange.value = steps.value;
+    });
+
+    widthRange.addEventListener('input', () => {
+        width.value = widthRange.value;
+    });
+
+    width.addEventListener('input', () => {
+        widthRange.value = width.value;
+    });
+
+    heightRange.addEventListener('input', () => {
+        height.value = heightRange.value;
+    });
+
+    height.addEventListener('input', () => {
+        heightRange.value = height.value;
+    });
+
+    cfgScaleRange.addEventListener('input', () => {
+        cfgScale.value = cfgScaleRange.value;
+    });
+
+    cfgScale.addEventListener('input', () => {
+        cfgScaleRange.value = cfgScale.value;
+    })
+</script>

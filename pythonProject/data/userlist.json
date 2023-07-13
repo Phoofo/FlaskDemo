@@ -1,0 +1,17 @@
+{
+  "user1": {
+    "password": "e10adc3949ba59abbe56e057f20f883e",
+    "register_date": "2023-07-13",
+    "username": "user1"
+  },
+  "user12": {
+    "password": "e10adc3949ba59abbe56e057f20f883e",
+    "register_date": "2023-07-13",
+    "username": "user12"
+  },
+  "user2": {
+    "password": "e10adc3949ba59abbe56e057f20f883e",
+    "register_date": "2023-07-13",
+    "username": "user2"
+  }
+}
