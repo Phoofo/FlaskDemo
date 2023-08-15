@@ -9,7 +9,7 @@ win.title("标签实例demo02")
 # photo = tk.PhotoImage(file='D:/apython/FlaskDemo/pythonProject/tkinter/img/104147976_p0.png')
 # print(type(photo))
 # 将图片放在主窗口的右边
-# img = Image.open("./img/104147976_p0.png")  # 打开图片
+img = Image.open("./img/104147976_p0.png")  # 打开图片
 # photo = ImageTk.PhotoImage(img)  # 使用ImageTk的PhotoImage方法
 # tk.Label(win, image=photo).pack(side="right")
 # 显示文字，设置文本格式
